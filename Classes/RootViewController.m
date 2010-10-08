@@ -59,17 +59,21 @@
 
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+	//
+	// 季節をセクションに
+	//
+    //return 1;
+	return 4;
 }
 
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	//
-	// ４つのデータを表示させるので、戻り値に４を設定。
+	// 一つのセクション（季節）に３つの月
 	//
-    //return 0;
-	return 4;
+	//return 4;
+	return 3;
 }
 
 
@@ -88,26 +92,94 @@
 	//
 	// セルの位置に応じて、文字列を表示させる。
 	//
-	switch (indexPath.row) {
-		case 0:
-			cell.textLabel.text = @"Spring";
-			break;
-		case 1:
-			cell.textLabel.text = @"Summer";
-			break;
-		case 2:
-			cell.textLabel.text = @"Autumn";
-			break;
-		case 3:
-			cell.textLabel.text = @"Winter";
-			break;
-		default:
-			break;
+	if (indexPath.section == 0) {
+		switch (indexPath.row) {
+			case 0:
+				cell.textLabel.text = @"Mar.";
+				break;
+			case 1:
+				cell.textLabel.text = @"Apr.";
+				break;
+			case 2:
+				cell.textLabel.text = @"May";
+				break;
+			default:
+				break;
+		}
+	}
+	else if (indexPath.section == 1) {
+		switch (indexPath.row) {
+			case 0:
+				cell.textLabel.text = @"Jun.";
+				break;
+			case 1:
+				cell.textLabel.text = @"Jul.";
+				break;
+			case 2:
+				cell.textLabel.text = @"Aug.";
+				break;
+			default:
+				break;
+		}
+	}
+	else if (indexPath.section == 2) {
+		switch (indexPath.row) {
+			case 0:
+				cell.textLabel.text = @"Sep.";
+				break;
+			case 1:
+				cell.textLabel.text = @"Oct.";
+				break;
+			case 2:
+				cell.textLabel.text = @"Nov.";
+				break;
+			default:
+				break;
+		}
+	}
+	else if (indexPath.section == 3) {
+		switch (indexPath.row) {
+			case 0:
+				cell.textLabel.text = @"Dec.";
+				break;
+			case 1:
+				cell.textLabel.text = @"Jan.";
+				break;
+			case 2:
+				cell.textLabel.text = @"Feb.";
+				break;
+			default:
+				break;
+		}
+	}
+	else {
 	}
 
     return cell;
 }
 
+//
+// 各セクションのタイトルを返す。
+//
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	switch (section) {
+		case 0:
+			return @"Spring";
+			break;
+		case 1:
+			return @"Summer";
+			break;
+		case 2:
+			return @"Autumn";
+			break;
+		case 3:
+			return @"Winter";
+			break;
+		default:
+			return @"";
+			break;
+	}
+}
 
 /*
 // Override to support conditional editing of the table view.
