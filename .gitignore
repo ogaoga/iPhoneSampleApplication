@@ -1,6 +1,8 @@
 #
 
 *.xcodeproj/*.mode1v3
+*.xcodeproj/*.mode2v3
 *.xcodeproj/*.pbxuser
+
 build
 .DS_Store
