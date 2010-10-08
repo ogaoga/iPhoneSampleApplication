@@ -65,7 +65,11 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+	//
+	// ４つのデータを表示させるので、戻り値に４を設定。
+	//
+    //return 0;
+	return 4;
 }
 
 
@@ -80,6 +84,26 @@
     }
     
 	// Configure the cell.
+
+	//
+	// セルの位置に応じて、文字列を表示させる。
+	//
+	switch (indexPath.row) {
+		case 0:
+			cell.textLabel.text = @"Spring";
+			break;
+		case 1:
+			cell.textLabel.text = @"Summer";
+			break;
+		case 2:
+			cell.textLabel.text = @"Autumn";
+			break;
+		case 3:
+			cell.textLabel.text = @"Winter";
+			break;
+		default:
+			break;
+	}
 
     return cell;
 }
