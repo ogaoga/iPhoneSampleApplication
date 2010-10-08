@@ -15,14 +15,32 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-/*
+//
+// View が読み込まれる前に、データを作成。
+//
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+	// 配列のインスタンス
+	activities = [[NSMutableArray alloc] init];  // new と等しい。
+	
+	// 配列に追加するデータを作成。
+	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
+	NSString *note = @"買い物";
+	NSNumber *amount = [NSNumber numberWithInt:10000];
+	NSDictionary *activity = [NSDictionary dictionaryWithObjectsAndKeys:date, @"date", amount, @"amount", note, @"note", nil];
+
+	// 配列にデータを追加する。（試しに同じものを３つ追加）
+	[activities addObject:activity];	
+	[activities addObject:activity];
+	[activities addObject:activity];	
+	
+	// 確認（デバッグ）
+	NSLog(@"%@", [activities description]);
+	
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
-*/
 
 /*
 - (void)viewWillAppear:(BOOL)animated {
@@ -60,20 +78,18 @@
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	//
-	// 季節をセクションに
+	// セクションは１つ
 	//
-    //return 1;
-	return 4;
+    return 1;
 }
 
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	//
-	// 一つのセクション（季節）に３つの月
+	// データは、配列の大きさを返す。
 	//
-	//return 4;
-	return 3;
+	return [activities count];
 }
 
 
@@ -89,97 +105,21 @@
     
 	// Configure the cell.
 
-	//
-	// セルの位置に応じて、文字列を表示させる。
-	//
-	if (indexPath.section == 0) {
-		switch (indexPath.row) {
-			case 0:
-				cell.textLabel.text = @"Mar.";
-				break;
-			case 1:
-				cell.textLabel.text = @"Apr.";
-				break;
-			case 2:
-				cell.textLabel.text = @"May";
-				break;
-			default:
-				break;
-		}
-	}
-	else if (indexPath.section == 1) {
-		switch (indexPath.row) {
-			case 0:
-				cell.textLabel.text = @"Jun.";
-				break;
-			case 1:
-				cell.textLabel.text = @"Jul.";
-				break;
-			case 2:
-				cell.textLabel.text = @"Aug.";
-				break;
-			default:
-				break;
-		}
-	}
-	else if (indexPath.section == 2) {
-		switch (indexPath.row) {
-			case 0:
-				cell.textLabel.text = @"Sep.";
-				break;
-			case 1:
-				cell.textLabel.text = @"Oct.";
-				break;
-			case 2:
-				cell.textLabel.text = @"Nov.";
-				break;
-			default:
-				break;
-		}
-	}
-	else if (indexPath.section == 3) {
-		switch (indexPath.row) {
-			case 0:
-				cell.textLabel.text = @"Dec.";
-				break;
-			case 1:
-				cell.textLabel.text = @"Jan.";
-				break;
-			case 2:
-				cell.textLabel.text = @"Feb.";
-				break;
-			default:
-				break;
-		}
-	}
-	else {
-	}
-
+	// 表示するデータは、配列から呼び出す。
+	NSDictionary *activity = [activities objectAtIndex:indexPath.row];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ %d円", [activity objectForKey:@"note"], [[activity objectForKey:@"amount"] intValue]];
+	
     return cell;
 }
 
+/*
 //
 // 各セクションのタイトルを返す。
 //
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	switch (section) {
-		case 0:
-			return @"Spring";
-			break;
-		case 1:
-			return @"Summer";
-			break;
-		case 2:
-			return @"Autumn";
-			break;
-		case 3:
-			return @"Winter";
-			break;
-		default:
-			return @"";
-			break;
-	}
+	return @""
 }
+ */
 
 /*
 // Override to support conditional editing of the table view.
@@ -249,6 +189,9 @@
 - (void)viewDidUnload {
     // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
     // For example: self.myOutlet = nil;
+	
+	// メモリを解放するのを忘れずに。
+	[activities release];
 }
 
 
