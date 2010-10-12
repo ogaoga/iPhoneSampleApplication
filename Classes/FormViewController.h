@@ -10,7 +10,9 @@
 
 
 @interface FormViewController : UIViewController {
-
+	IBOutlet UITextField *date;
+	IBOutlet UITextField *amount;
+	IBOutlet UITextField *note;
 }
 
 - (IBAction)pressCancelButton:(id)sender;

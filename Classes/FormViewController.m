@@ -61,9 +61,10 @@
 
 - (IBAction)pressSaveButton:(id)sender {
 	// TODO: save
+	NSLog(@"date:%@ amount:%@ note:%@", date.text, amount.text, note.text);
 	
 	// close
-	[self dismissModalViewControllerAnimated:YES];
+	//[self dismissModalViewControllerAnimated:YES];
 }
 
 @end
