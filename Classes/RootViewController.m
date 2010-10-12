@@ -199,6 +199,11 @@
     [super dealloc];
 }
 
+- (IBAction)pressAddButton:(id)sender {
+	// ボタンが押されたときの処理を記述。
+	NSLog(@"Add button pressed.");
+}
+
 
 @end
 

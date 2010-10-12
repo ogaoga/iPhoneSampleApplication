@@ -13,4 +13,6 @@
 	NSMutableArray *activities;
 }
 
+- (IBAction)pressAddButton:(id)sender;
+
 @end
