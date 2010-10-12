@@ -13,4 +13,7 @@
 
 }
 
+- (IBAction)pressCancelButton:(id)sender;
+- (IBAction)pressSaveButton:(id)sender;
+
 @end

@@ -54,5 +54,16 @@
     [super dealloc];
 }
 
+- (IBAction)pressCancelButton:(id)sender {
+	// close
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (IBAction)pressSaveButton:(id)sender {
+	// TODO: save
+	
+	// close
+	[self dismissModalViewControllerAnimated:YES];
+}
 
 @end

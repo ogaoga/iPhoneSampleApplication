@@ -7,7 +7,7 @@
 //
 
 #import "RootViewController.h"
-
+#import "FormViewController.h"
 
 @implementation RootViewController
 
@@ -201,7 +201,13 @@
 
 - (IBAction)pressAddButton:(id)sender {
 	// ボタンが押されたときの処理を記述。
-	NSLog(@"Add button pressed.");
+	//NSLog(@"Add button pressed.");
+
+	// view controller
+	FormViewController *formViewController = [[FormViewController alloc] initWithNibName:@"FormViewController"
+																				  bundle:nil];
+	// show modal view.
+	[self presentModalViewController:formViewController animated:YES];
 }
 
 
