@@ -38,6 +38,9 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSArray *activities = [defaults objectForKey:@"activities"];
 	activity = [activities objectAtIndex:indexValue];
+	
+	// タイトルの設定
+	self.navigationItem.title = [[activity objectForKey:@"date"] description];
 }
 
 /*
@@ -86,12 +89,14 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
+		// スタイルを変更。
         //cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Configure the cell...
-    
+
+    // 各セルに値を設定。
 	if ( indexPath.row == 0 ) {
 		cell.textLabel.text = @"Date";
 		cell.detailTextLabel.text = [[activity objectForKey:@"date"] description];
@@ -106,6 +111,9 @@
 	}
 	else {
 	}
+	
+	// タッチしたときにハイライトさせないように設定。
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
     return cell;
 }

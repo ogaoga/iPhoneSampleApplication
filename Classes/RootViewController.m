@@ -118,6 +118,9 @@
 						   [activity objectForKey:@"note"]];
 	cell.detailTextLabel.text = [NSString stringWithFormat:@"%d円",
 								 [[activity objectForKey:@"amount"] intValue]];
+	
+	// cell のスタイルをセット
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return cell;
 }
@@ -194,7 +197,7 @@
 	[self.navigationController pushViewController:detailViewController animated:YES];
 
 	// 選択されたセルのハイライトを解除
-	//[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	// インスタンスした view controller をリリース。
 	[detailViewController release];
