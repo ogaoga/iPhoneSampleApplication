@@ -21,6 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+	/*
 	// 配列のインスタンス
 	activities = [[NSMutableArray alloc] init];  // new と等しい。
 	
@@ -38,15 +39,30 @@
 	// 確認（デバッグ）
 	NSLog(@"%@", [activities description]);
 	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	activities = [defaults objectForKey:@"activities"];
+	 */
+	
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-/*
+/**
+ * 表示の直前に呼び出されるメソッド
+ * ここで、テーブルの再描画しょりを行う。
+ */
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+    [super viewWillAppear:animated];	// 親クラスの呼び出し。消してはいけない。
+	
+	// データ User Defaults から読み込む。
+	// このクラス内では、読み込み専用として扱う。 
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	activities = [defaults objectForKey:@"activities"];
+	// テーブルの再描画。
+	// UITableViewController を継承しているので、tableView で参照できる。
+	[self.tableView reloadData];
 }
-*/
+
 /*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -100,15 +116,36 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        //cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		// セルのスタイルを変更。
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+									   reuseIdentifier:CellIdentifier] autorelease];
     }
     
 	// Configure the cell.
 
 	// 表示するデータは、配列から呼び出す。
 	NSDictionary *activity = [activities objectAtIndex:indexPath.row];
-	cell.textLabel.text = [NSString stringWithFormat:@"%@ %d円", [activity objectForKey:@"note"], [[activity objectForKey:@"amount"] intValue]];
+	/*
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ %d円",
+						   [activity objectForKey:@"note"],
+						   [[activity objectForKey:@"amount"] intValue]];
+	 */
 	
+	// 日付を文字列に変換
+	NSDate *dateValue = [activity objectForKey:@"date"];
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	[formatter setDateFormat:@"yyyy/MM/dd"];
+	NSString *dateString = [formatter stringFromDate:dateValue];
+	[formatter release];	// formatter のリリースを忘れずに。
+	
+	// cell に値をセット
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ %@",
+						   dateString,
+						   [activity objectForKey:@"note"]];
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%d円",
+								 [[activity objectForKey:@"amount"] intValue]];
+
     return cell;
 }
 
@@ -191,7 +228,7 @@
     // For example: self.myOutlet = nil;
 	
 	// メモリを解放するのを忘れずに。
-	[activities release];
+	//[activities release];
 }
 
 
@@ -203,11 +240,14 @@
 	// ボタンが押されたときの処理を記述。
 	//NSLog(@"Add button pressed.");
 
-	// view controller
+	// フォームの view controller をインスタンス。
 	FormViewController *formViewController = [[FormViewController alloc] initWithNibName:@"FormViewController"
 																				  bundle:nil];
-	// show modal view.
+	// modal view として表示。
 	[self presentModalViewController:formViewController animated:YES];
+
+	// インスタンスしたフォームをリリース
+	[formViewController release];
 }
 
 

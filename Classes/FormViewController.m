@@ -61,10 +61,35 @@
 
 - (IBAction)pressSaveButton:(id)sender {
 	// TODO: save
-	NSLog(@"date:%@ amount:%@ note:%@", date.text, amount.text, note.text);
+	//NSLog(@"date:%@ amount:%@ note:%@", date.text, amount.text, note.text);
+	[self save];
 	
 	// close
-	//[self dismissModalViewControllerAnimated:YES];
+	[self dismissModalViewControllerAnimated:YES];
 }
+
+- (void)save {
+	
+	// user defaults を呼び出す。
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSMutableArray *activities = [[NSMutableArray alloc] initWithArray:[defaults objectForKey:@"activities"]];
+	
+	// 配列に追加するデータを作成。
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	//[dateFormatter setTimeStyle:NSDateFormatterFullStyle];
+	[dateFormatter setDateFormat:@"yyyy/MM/dd"];
+	NSDate *dateValue = [dateFormatter dateFromString:date.text];
+	NSString *noteValue = note.text;
+	NSNumber *amountValue = [NSNumber numberWithInt:[amount.text intValue]];
+	// activities に追加
+	NSDictionary *activity = [NSDictionary dictionaryWithObjectsAndKeys:dateValue, @"date",
+							  amountValue, @"amount", noteValue, @"note", nil];
+	[activities addObject:activity];
+	
+	// user defaults に保存
+	[defaults setObject:activities forKey:@"activities"];
+	[defaults synchronize];
+}
+
 
 @end
