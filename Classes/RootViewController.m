@@ -8,6 +8,7 @@
 
 #import "RootViewController.h"
 #import "FormViewController.h"
+#import "DetailViewController.h"
 
 @implementation RootViewController
 
@@ -15,37 +16,14 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-//
-// View が読み込まれる前に、データを作成。
-//
+/*
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-	/*
-	// 配列のインスタンス
-	activities = [[NSMutableArray alloc] init];  // new と等しい。
-	
-	// 配列に追加するデータを作成。
-	NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
-	NSString *note = @"買い物";
-	NSNumber *amount = [NSNumber numberWithInt:10000];
-	NSDictionary *activity = [NSDictionary dictionaryWithObjectsAndKeys:date, @"date", amount, @"amount", note, @"note", nil];
-
-	// 配列にデータを追加する。（試しに同じものを３つ追加）
-	[activities addObject:activity];	
-	[activities addObject:activity];
-	[activities addObject:activity];	
-	
-	// 確認（デバッグ）
-	NSLog(@"%@", [activities description]);
-	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	activities = [defaults objectForKey:@"activities"];
-	 */
 	
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+ */
 
 /**
  * 表示の直前に呼び出されるメソッド
@@ -126,11 +104,6 @@
 
 	// 表示するデータは、配列から呼び出す。
 	NSDictionary *activity = [activities objectAtIndex:indexPath.row];
-	/*
-	cell.textLabel.text = [NSString stringWithFormat:@"%@ %d円",
-						   [activity objectForKey:@"note"],
-						   [[activity objectForKey:@"amount"] intValue]];
-	 */
 	
 	// 日付を文字列に変換
 	NSDate *dateValue = [activity objectForKey:@"date"];
@@ -210,6 +183,21 @@
 	 [self.navigationController pushViewController:detailViewController animated:YES];
 	 [detailViewController release];
 	 */
+	
+	// フォームの view controller をインスタンス。
+	DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController"
+																						bundle:nil];
+	// 表示対象のインデックスを指定
+	[detailViewController setIndex:indexPath.row];
+	
+	// navigation controller にプッシュ
+	[self.navigationController pushViewController:detailViewController animated:YES];
+
+	// 選択されたセルのハイライトを解除
+	//[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	// インスタンスした view controller をリリース。
+	[detailViewController release];
 }
 
 
@@ -223,13 +211,12 @@
     // Relinquish ownership any cached data, images, etc that aren't in use.
 }
 
+/*
 - (void)viewDidUnload {
     // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
     // For example: self.myOutlet = nil;
-	
-	// メモリを解放するのを忘れずに。
-	//[activities release];
 }
+ */
 
 
 - (void)dealloc {
