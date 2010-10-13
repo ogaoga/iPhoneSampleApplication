@@ -7,7 +7,7 @@
 //
 
 #import "DetailViewController.h"
-
+#import "FormViewController.h"
 
 @implementation DetailViewController
 
@@ -16,6 +16,22 @@
  */
 - (void)setIndex:(int)index {
 	indexValue = index;
+}
+
+/**
+ * Edit ボタンを押されたときの処理
+ */
+- (IBAction)pressEditButton:(id)sender {
+	NSLog(@"Edit button pressed.");
+	
+	// form view の呼び出し。
+	FormViewController *formViewController = [[FormViewController alloc] initWithNibName:@"FormViewController"
+																				  bundle:nil];
+	// modal view として表示。
+	[self presentModalViewController:formViewController animated:YES];
+	
+	// インスタンスしたフォームをリリース
+	[formViewController release];
 }
 
 #pragma mark -
@@ -30,7 +46,6 @@
 }
 */
 
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];	// 親クラスの呼び出し。消してはいけない。
 	
@@ -41,6 +56,16 @@
 	
 	// タイトルの設定
 	self.navigationItem.title = [[activity objectForKey:@"date"] description];
+	
+	// Edit ボタンの設置
+	// ボタンの種類と、ボタンを押されたときにメッセージを送信するオブジェクト、メソッドを指定。
+	UIBarButtonItem *editButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+																					target:self
+																					action:@selector(pressEditButton:)];
+	// 右側に設定。
+	self.navigationItem.rightBarButtonItem = editButtonItem;
+	// オブジェクトをリリース。忘れずに。
+	[editButtonItem release];
 }
 
 /*
