@@ -27,7 +27,7 @@
 
 /**
  * 表示の直前に呼び出されるメソッド
- * ここで、テーブルの再描画しょりを行う。
+ * ここで、テーブルの再描画処理を行う。
  */
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];	// 親クラスの呼び出し。消してはいけない。
@@ -36,9 +36,17 @@
 	// このクラス内では、読み込み専用として扱う。 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	activities = [defaults objectForKey:@"activities"];
+
 	// テーブルの再描画。
 	// UITableViewController を継承しているので、tableView で参照できる。
 	[self.tableView reloadData];
+	
+	// 合計の計算と表示
+	int sum = 0;
+	for ( NSDictionary *activity in activities ) {
+		sum += [[activity objectForKey:@"amount"] intValue];
+	}
+	self.navigationItem.title = [NSString stringWithFormat:@"合計 %d円", sum];
 }
 
 /*
