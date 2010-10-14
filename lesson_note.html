@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="exporter-version" content="Evernote Mac 1.11.0 (99371)"/><meta name="created" content="2010-10-08 16:22:33 +0900"/><meta name="updated" content="2010-10-14 22:03:05 +0900"/><title>iPhone アプリ講習原稿</title></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;">
+<ul>
+<li>作るアプリの説明
+<ul>
+<li>HIG ３つのアプリケーションスタイルが定義されている。
+<ul>
+<li>生産性型</li>
+<li>ユーティリティ型</li>
+<li>没入型</li>
+</ul>
+</li>
+<li>今回は、生産性型のアプリケーションを作成します。
+<ul>
+<li>情報の階層的なブラウジング</li>
+</ul>
+</li>
+<li>お小遣い帖
+<ul>
+<li>金額、用途、日時の入力、編集</li>
+<li>一覧表示、詳細表示</li>
+<li>集計、グラフ表示</li>
+</ul>
+</li>
+<li>基本構成
+<ul>
+<li>ビュー
+<ul>
+<li>一覧表示、詳細表示
+<ul>
+<li>UITableView</li>
+</ul>
+</li>
+<li>編集画面
+<ul>
+<li>UITextView</li>
+<li>UIDatePicker</li>
+</ul>
+</li>
+<li>グラフ表示
+<ul>
+<li>UIWebView</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>コントローラ
+<ul>
+<li>UINavigationController</li>
+<li>UITableViewController</li>
+</ul>
+</li>
+<li>モデル
+<ul>
+<li>お小遣いデータ
+<ul>
+<li>NSUserDefaults</li>
+<li>NSArray</li>
+<li>NSDictionary</li>
+<li>NSString</li>
+<li>NSInteger</li>
+<li>NSDate</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>設定
+<ul>
+<li>NSUserDefault</li>
+<li>Setting Bundle</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>UI について
+<ul>
+<li>Interface Builder や API に従うだけでもある程度のアプリが作れる。</li>
+<li>ヒューマンインタフェースガイドラインが Apple から出ている。</li>
+<li>実際にいろいろなアプリケーションを触ってまねするのが近道。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>テンプレートのビルド
+<ul>
+<li>新規プロジェクトで、iOS の Application の「Navigation-based Application」を選択。
+<ul>
+<li>CoreData のチェックは外す。</li>
+</ul>
+</li>
+<li>出来たプロジェクトをビルドすると、iPhone シミュレータが立ち上がり、テーブルが表示される。
+<ul>
+<li>section.0.0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ファイル構成
+<ul>
+<li>Classes には、コードが、Resources にリソースが入っている。</li>
+<li>RootViewController.* は、現在のテーブルの画面をコントロールする。</li>
+<li>iPhoneSampleApplicationAppDelegate.* は、アプリケーションとシステムがお話する部分。<br/>
+<ul>
+<li>App が立ちあがったとか、終了したとか。</li>
+</ul>
+</li>
+<li>RootViewController.xib は、テーブルビューの実際の UI が定義されているフィアル。</li>
+<li>MainWindow はアプリケーションのベースとなる UI が定義されている。あまり使用しない。
+<ul>
+<li>このプロジェクトでは、NavigationBar が定義されている</li>
+</ul>
+</li>
+<li>iPhoneSampleApplication-Info.plist は、プロジェクトの情報が含まれるファイル。</li>
+</ul>
+</li>
+<li>手順
+<ul>
+<li>テーブルビューにデータを表示してみる。（Section.1）<br/>
+<ul>
+<li>UITableViewDelegate、UITableViewDatasource</li>
+</ul>
+</li>
+<li>データを格納する仕組みを決める（Section.2）<br/>
+<ul>
+<li>NSArray、NSDictionary、NSUserDefaults</li>
+</ul>
+</li>
+<li>データを登録する View を作る。
+<ul>
+<li>View の追加</li>
+<li>View の呼び出し</li>
+<li>データの保存</li>
+</ul>
+</li>
+<li>詳細ビューの作成
+<ul>
+<li>View の追加</li>
+<li>UINavigationController に push して表示</li>
+</ul>
+</li>
+<li>編集ビューの呼び出し
+<ul>
+<li>ボタンの追加</li>
+<li>引数の渡し方</li>
+<li>データをビューに反映。</li>
+</ul>
+</li>
+<li>集計処理
+<ul>
+<li>更新タイミング</li>
+<li>データの処理と表示</li>
+</ul>
+</li>
+<li>グラフ表示
+<ul>
+<li>UIWebView の使い方</li>
+<li>URL の渡し方</li>
+<li>回転で表示。</li>
+</ul>
+</li>
+<li>テーブルの一歩進んだ使い方
+<ul>
+<li>編集、削除</li>
+<li>インデックス表示</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Section.1 テーブルビューにデータを表示してみる。
+<ul>
+<li>UITableViewController データの処理と表示の仲介役。</li>
+<li>Delegate、Datasource という問い合わせる仕組み。
+<ul>
+<li><font face="Arial"><font size="3"><span style="font-size: 13px;"><input type="checkbox"/> （スライド：絵が欲しい）</span></font></font></li>
+</ul>
+</li>
+<li>インタフェース
+<ul>
+<li><font face="Arial"><font size="3"><span style="font-size: 13px;"><input type="checkbox"/> UITableViewControllerDatasource のメソッド（スライド）</span></font></font>
+<ul>
+<li>- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {<br/>
+<ul>
+<li>セクションはいくつあるか？</li>
+</ul>
+</li>
+<li>- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {<br/>
+<ul>
+<li>指定のセクションにいくつのデータがあるか？</li>
+</ul>
+</li>
+<li>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {<br/>
+<ul>
+<li>指定のセクション、ロウのデータ。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>季節をテーブルに表示するようにコードを修正。
+<ul>
+<li>section.1.0</li>
+</ul>
+</li>
+<li>セクションを使う
+<ul>
+<li><font face="Arial"><font size="3"><span style="font-size: 13px;"><input type="checkbox"/> </span></font></font>（スライド：セクションとセルの関係を絵で）</li>
+<li>- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {<br/></li>
+</ul>
+</li>
+<li>セクションに季節を、セルに月を表示
+<ul>
+<li>section.1.1</li>
+</ul>
+</li>
+<li>OS 側からのリクエストに応える形で、テーブルに情報を表示していきます。</li>
+<li>（補足）文字列の扱い。（＠とか。）</li>
+</ul>
+</li>
+<li>Section.2 データを格納する仕組み
+<ul>
+<li>データを扱う方法はいくつかある。
+<ul>
+<li>メモリ、フィアル、アプリケーション環境設定（NSUserDefaults）、SQLite、CoreData</li>
+</ul>
+</li>
+<li>今回は、メモリ（実行時）とアプリケーション環境設定（永続的ストレージ）を使う。
+<ul>
+<li>NSUserDefaults
+<ul>
+<li>アプリケーションごとに与えられた、設定などを保存する領域。</li>
+<li>文字列のキーに各種値、オブジェクトを設定可能。</li>
+<li>本来は大量のデータを扱うものではないが、簡単に扱えるので使用する</li>
+</ul>
+</li>
+<li>開始時にメモリ上に読み込んで、終了時に UserDefautls に書き込む。</li>
+</ul>
+</li>
+<li>格納するデータ
+<ul>
+<li>日付（NSData）、金額（NSNumber）、用途（NSString）</li>
+<li>これらを１つのデータに束ねるために、連想配列（NSMutableDictionary）を使う。
+<ul>
+<li>オブジェクトを格納する連想配列。キー（文字列）で読み書き。</li>
+</ul>
+</li>
+<li>束ねたデータを複数格納するために、配列（NSMutableArray）に格納する。
+<ul>
+<li>オブジェクトを格納する配列。インデックス（整数値）で値を読み書き。</li>
+</ul>
+</li>
+<li>（スライド：データ構造を絵にする。）</li>
+</ul>
+</li>
+<li>データの作成
+<ul>
+<li>viewDidLoad() と viewDidUnload()</li>
+<li>NSMutableArray をインスタンス。
+<ul>
+<li>メモリの話。
+<ul>
+<li>インスタンス方法</li>
+<li>init〜 と dictionary〜</li>
+<li>NSMutable〜 と NS〜</li>
+</ul>
+</li>
+<li>NSLog() の話
+<ul>
+<li>sprintf() と同じ書式。</li>
+<li>ただし、%s ではなく %@</li>
+<li>[object description];</li>
+</ul>
+</li>
+<li>viewDidUnload() でリリースする。</li>
+</ul>
+</li>
+<li>NSDictionary の使い方
+<ul>
+<li>各種オブジェクトをキー（文字列）にひもづけて格納。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>データの表示
+<ul>
+<li>セクションは一つ。項目の数は配列の数。
+<ul>
+<li>追加する数によって、テーブルの項目すうが増減する。</li>
+</ul>
+</li>
+<li>データの表示
+<ul>
+<li>配列から１つのデータを取り出す。</li>
+<li>データから、各情報を取り出す。</li>
+<li>NSString::stringWithFormat で sprintf 的に文字列化して表示。</li>
+</ul>
+</li>
+<li>コードでデータを作り出すことはなく、実際は入力したものを格納する。ただ、こう書くことで、NSArray や NSDictionary の構造が理解できる。</li>
+</ul>
+</li>
+<li>サンプル section.2.0</li>
+</ul>
+</li>
+<li>Section.3 入力フォームとモーダルビュー
+<ul>
+<li>ユーザーの入力フォームを作成。
+<ul>
+<li>新しく UIView を追加する。
+<ul>
+<li>ファイル → 新規ファイル... → UIViewController subclass
+<ul>
+<li>With XIB for user interface にチェック。</li>
+</ul>
+</li>
+<li>ディレクトリ構成がおかしいけど、動作はする。</li>
+<li>FormViewController.xib を開き、Interface Builder を起動。</li>
+<li>ファイル構成を確認
+<ul>
+<li>File's Owner → ViewController との接続部。</li>
+<li>First Responder → イベントに関連するモジュール。使用しない。</li>
+<li>View → View の構造。実際にこれを編集する。</li>
+</ul>
+</li>
+<li>Tools → Library からパーツを選んで、配置する。
+<ul>
+<li>Text Field
+<ul>
+<li>数字のみ、右寄せなどの属性も設定。</li>
+</ul>
+</li>
+<li>Text Label</li>
+<li>Navigation Bar
+<ul>
+<li>Title</li>
+<li>Bar buttons</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>呼び出すボタンを追加して、Controller と接続。
+<ul>
+<li>RootView に追加ボタンを追加。</li>
+<li>追加ボタンを押されたときに実行するコードを記述。
+<ul>
+<li>IBAction として登録</li>
+</ul>
+</li>
+<li>コントローラとビューを接続する。
+<ul>
+<li>オブジェクトの右クリック。</li>
+</ul>
+</li>
+<li>section.3.0</li>
+</ul>
+</li>
+<li>モーダルビューとして表示する。
+<ul>
+<li>pressAddButton の中で、View をインスタンス。</li>
+<li>presentModalViewController で呼び出す。<br/></li>
+</ul>
+</li>
+<li>閉じる処理<br/>
+<ul>
+<li>FormViewController に、下記を追加。
+<ul>
+<li>
+<p style="margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px Menlo"><font face="Arial"><font size="3"><span style="font-size: 13px;">- (IBAction)pressCancelButton:(id)sender;</span></font></font></p>
+- (IBAction)pressSaveButton:(id)sender;</li>
+</ul>
+</li>
+<li>各処理の中で、閉じる処理を行う。
+<ul>
+<li>dismissModalViewControllerAnimated<br/></li>
+</ul>
+</li>
+<li>接続
+<ul>
+<li>ボタンと IBAction をつなぐ。</li>
+</ul>
+</li>
+<li>section.3.1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>保存処理
+<ul>
+<li>データの取得。Outlet を追加して、各フォームと接続。
+<ul>
+<li>Outlet の説明図。</li>
+<li>Save を押したときに、各 TextField の値を取得して、デバッグ表示。</li>
+<li>section.3.2</li>
+</ul>
+</li>
+<li>save で保存処理。
+<ul>
+<li>方針
+<ul>
+<li>NSUserDefaults を使う。</li>
+<li>NSUserDefaults に @"activities" というキーを使って、配列オブジェクトを保存。</li>
+<li>ユーザーが保存を行ったタイミングで、User Defautls に書き込む。</li>
+<li>テーブルを描画するときに読み込んで、表示を行う。</li>
+<li>（図が必要）</li>
+</ul>
+</li>
+<li>save ボタン押されたときの処理
+<ul>
+<li>NSUserDefaults に保存する。</li>
+<li>synchronize も忘れずに。</li>
+</ul>
+</li>
+<li>RootViewController の viewWillAppear でデータの更新とテーブルの再描画
+<ul>
+<li>reloadData を呼び出すと、再度、テーブルを描画する。この前に、size などが確定していること。</li>
+</ul>
+</li>
+<li>cell に必要な情報を渡す
+<ul>
+<li>スタイルを変更。</li>
+<li>NSData を文字列に変換。</li>
+<li>値をセット。</li>
+</ul>
+</li>
+<li>section.3.3</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Section.4 詳細ビューの作成
+<ul>
+<li>DetailView の作成
+<ul>
+<li>tableView を使う。</li>
+<li>outlet</li>
+<li>タイトル、セルへのデータセット。</li>
+</ul>
+</li>
+<li>DetailView の呼び出し
+<ul>
+<li>表示するデータの受け渡し。index で。</li>
+<li>didselect されたら、NavigationController push で表示。</li>
+<li>section.4.0</li>
+</ul>
+</li>
+<li>UI の調整
+<ul>
+<li>ビューにタイトルをセットする。そうしないと、もとに戻れない。</li>
+<li>grouped table で詳細表示。<br/></li>
+<li>セルに > を追加。</li>
+<li>詳細のタイトルを追加。</li>
+<li>ハイライトを消す。iPhone ではリジェクトされる。
+<ul>
+<li>RootView は deselectRowAtIndexPath</li>
+<li>DetailView は selectionStyle を設定。</li>
+</ul>
+</li>
+<li>section.4.1</li>
+</ul>
+</li>
+<li>編集ボタンと FormView の呼び出し。
+<ul>
+<li>コードで Edit ボタンを追加。</li>
+<li>押されたときに、Form View を呼び出す処理を追加。</li>
+<li>section.4.2</li>
+</ul>
+</li>
+<li>FormView を追加だけではなく、編集に対応できるようにする。
+<ul>
+<li>FormView に index というメンバ変数を定義して、呼び出し時にセットする。
+<ul>
+<li>DetailView と同じ。</li>
+<li>新規の場合には、-1 とするので、indexValue を -1 で初期化することを忘れずに。</li>
+</ul>
+</li>
+<li>viewWillAppear で、データを読み出して、text field に値をセットする。</li>
+<li>保存の時、インデックスに応じて保存位置を指定。</li>
+<li>DetailView に戻ったときに、データをリフレッシュする必要がある。</li>
+<li>section.4.3</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Section.5 合計とグラフの表示
+<ul>
+<li>合計をタイトルに。
+<ul>
+<li>合計の計算</li>
+<li>タイトルバーにセット</li>
+<li>section.5.0</li>
+</ul>
+</li>
+<li>GraphView の追加。
+<ul>
+<li>GraphView を作る。
+<ul>
+<li>WebView を貼付ける。</li>
+<li>Done ボタン</li>
+</ul>
+</li>
+<li>Done ボタンを押したときに閉じる処理。
+<ul>
+<li>dismiss</li>
+<li>IBAction の接続。</li>
+</ul>
+</li>
+<li>RootView からの呼び出し
+<ul>
+<li>transition スタイルの設定。</li>
+</ul>
+</li>
+<li>section.5.1</li>
+</ul>
+</li>
+<li>URL を渡す
+<ul>
+<li>NSMutableString を定義、インスタンス、リリース。</li>
+<li>setURLString</li>
+</ul>
+</li>
+<li>UIWebView の接続
+<ul>
+<li>IB で。</li>
+<li>IBOutlet</li>
+</ul>
+</li>
+<li>表示を行う。
+<ul>
+<li>viewWillAppear で。</li>
+<li>section.5.2</li>
+</ul>
+</li>
+<li>Google Chart API でグラフ表示
+<ul>
+<li>URL の生成</li>
+<li>section.5.3</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Section.6 テーブルの一歩進んだ使い方
+<ul>
+<li>削除</li>
+<li>section.6.0</li>
+</ul>
+</li>
+</ul>
+＜todo＞
+<div>
+<ul>
+<li><font face="Arial"><font size="3"><span style="font-size: 13px;"><input type="checkbox"/> initWithNib とか viewWillAppear や viewDidLoad の順番などの解説。</span></font></font></li>
+<li><font face="Arial"><font size="3"><span style="font-size: 13px;"><input type="checkbox"/> デバッグ方法</span></font></font>
+<ul>
+<li>NSLog</li>
+<li>ステップ実行</li>
+</ul>
+</li>
+</ul>
+</div>
+</body></html>
