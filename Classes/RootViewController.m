@@ -9,6 +9,7 @@
 #import "RootViewController.h"
 #import "FormViewController.h"
 #import "DetailViewController.h"
+#import "GraphViewController.h"
 
 @implementation RootViewController
 
@@ -248,6 +249,20 @@
 	[formViewController release];
 }
 
+/**
+ * Graph ボタンを押されたら、Graph View に切り替える。
+ */
+- (IBAction)pressGraphButton:(id)sender {
+
+	// view controller の読み込み
+	GraphViewController *controller = [[GraphViewController alloc] initWithNibName:@"GraphViewController"
+																			bundle:nil];
+	// トランジッションスタイルのセット。今回はフリップ。
+	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+	// モーダルビューとして呼び出し。
+	[self presentModalViewController:controller animated:YES];
+	// view controller のリリース
+	[controller release];
+}
 
 @end
-

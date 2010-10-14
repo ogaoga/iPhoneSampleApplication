@@ -14,5 +14,6 @@
 }
 
 - (IBAction)pressAddButton:(id)sender;
+- (IBAction)pressGraphButton:(id)sender;
 
 @end

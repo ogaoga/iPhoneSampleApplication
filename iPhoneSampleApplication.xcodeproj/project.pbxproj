@@ -19,6 +19,8 @@
 		A9600B461264909E004A557F /* FormViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9600B451264909E004A557F /* FormViewController.xib */; };
 		A9600CB112653589004A557F /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9600CAF12653589004A557F /* DetailViewController.m */; };
 		A9600CB4126535D4004A557F /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9600CB3126535D4004A557F /* DetailViewController.xib */; };
+		A962B4C91266862000F35D9A /* GraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A962B4C71266862000F35D9A /* GraphViewController.m */; };
+		A962B4CD1266864800F35D9A /* GraphViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A962B4CC1266864800F35D9A /* GraphViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,9 @@
 		A9600CAE12653589004A557F /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		A9600CAF12653589004A557F /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		A9600CB3126535D4004A557F /* DetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
+		A962B4C61266862000F35D9A /* GraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphViewController.h; sourceTree = "<group>"; };
+		A962B4C71266862000F35D9A /* GraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphViewController.m; sourceTree = "<group>"; };
+		A962B4CC1266864800F35D9A /* GraphViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GraphViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +73,8 @@
 				A9600B3512649050004A557F /* FormViewController.m */,
 				A9600CAE12653589004A557F /* DetailViewController.h */,
 				A9600CAF12653589004A557F /* DetailViewController.m */,
+				A962B4C61266862000F35D9A /* GraphViewController.h */,
+				A962B4C71266862000F35D9A /* GraphViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -104,6 +111,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A962B4CC1266864800F35D9A /* GraphViewController.xib */,
 				A9600CB3126535D4004A557F /* DetailViewController.xib */,
 				A9600B451264909E004A557F /* FormViewController.xib */,
 				28F335F01007B36200424DE2 /* RootViewController.xib */,
@@ -176,6 +184,7 @@
 				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
 				A9600B461264909E004A557F /* FormViewController.xib in Resources */,
 				A9600CB4126535D4004A557F /* DetailViewController.xib in Resources */,
+				A962B4CD1266864800F35D9A /* GraphViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +200,7 @@
 				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
 				A9600B3712649050004A557F /* FormViewController.m in Sources */,
 				A9600CB112653589004A557F /* DetailViewController.m in Sources */,
+				A962B4C91266862000F35D9A /* GraphViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
