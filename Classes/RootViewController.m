@@ -257,6 +257,9 @@
 	// view controller の読み込み
 	GraphViewController *controller = [[GraphViewController alloc] initWithNibName:@"GraphViewController"
 																			bundle:nil];
+	// url を設定する。
+	// 仮に Google を設定しておく。
+	[controller setURLString:@"http://www.google.com/"];
 	// トランジッションスタイルのセット。今回はフリップ。
 	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 	// モーダルビューとして呼び出し。

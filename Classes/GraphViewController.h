@@ -10,9 +10,11 @@
 
 
 @interface GraphViewController : UIViewController {
-
+	NSMutableString *url;
+	IBOutlet UIWebView *webView;
 }
 
 - (IBAction)pressDoneButton:(id)sender;
+- (void)setURLString:(NSString*)urlString;
 
 @end
