@@ -258,14 +258,51 @@
 	GraphViewController *controller = [[GraphViewController alloc] initWithNibName:@"GraphViewController"
 																			bundle:nil];
 	// url を設定する。
-	// 仮に Google を設定しておく。
-	[controller setURLString:@"http://www.google.com/"];
+	[controller setURLString:[self getGraphURL]];
+	
 	// トランジッションスタイルのセット。今回はフリップ。
 	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 	// モーダルビューとして呼び出し。
 	[self presentModalViewController:controller animated:YES];
 	// view controller のリリース
 	[controller release];
+}
+
+/**
+ * データを Google Chart API の URL に変換
+ * http://code.google.com/intl/ja/apis/chart/index.html
+ */
+- (NSString*)getGraphURL {
+	// 一時的に保存する配列を用意。
+	NSMutableArray *values = [NSMutableArray arrayWithCapacity:0];
+	NSMutableArray *labels = [NSMutableArray arrayWithCapacity:0];
+	// 合計を計算
+	int sum = 0;
+	for ( NSDictionary *activity in activities ) {
+		sum += [[activity objectForKey:@"amount"] intValue];
+	}
+	if ( sum == 0 ) {
+		// 合計が 0 ならば、空文字を返す。
+		return @"";
+	}
+	// 各データを、配列にセット。
+	for ( NSDictionary *activity in activities ) {
+		[labels addObject:[activity objectForKey:@"note"]];
+		[values addObject:[NSString stringWithFormat:@"%d", [[activity objectForKey:@"amount"] intValue]*100/sum]];
+	}
+	// URL に整形。パラメータは、区切り文字で連結する。
+	NSString *urlString = [NSString stringWithFormat:@"http://chart.apis.google.com/chart?cht=p3&chd=t:%@&chs=320x120&chl=%@&chtt=合計 %d円",
+						   [values componentsJoinedByString:@","],
+						   [labels componentsJoinedByString:@"|"],
+						   sum];
+	// url エンコード
+	NSString *encodedURLString = (NSString*)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,  
+																					(CFStringRef)urlString,  
+																					NULL,  
+																					NULL,  
+																					kCFStringEncodingUTF8  
+																					);
+	return [encodedURLString autorelease];
 }
 
 @end

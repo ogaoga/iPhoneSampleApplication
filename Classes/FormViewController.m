@@ -18,7 +18,6 @@
  */
 - (void)setIndex:(int)index {
 	indexValue = index;
-	NSLog(@"setIndex");
 }
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -134,6 +133,9 @@
 	// user defaults に保存
 	[defaults setObject:activities forKey:@"activities"];
 	[defaults synchronize];
+	
+	// activities を解放
+	[activities release];
 }
 
 

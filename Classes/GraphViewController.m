@@ -33,6 +33,7 @@
 	[super viewWillAppear:animated];	// 親クラスの呼び出し。消してはいけない。
 
 	// Web View にリクエストを行う。
+	NSLog(@"%@", url);
 	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
 	[webView loadRequest:request];
 }

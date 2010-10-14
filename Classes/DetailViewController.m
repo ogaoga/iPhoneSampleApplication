@@ -22,7 +22,7 @@
  * Edit ボタンを押されたときの処理
  */
 - (IBAction)pressEditButton:(id)sender {
-	NSLog(@"Edit button pressed.");
+	//NSLog(@"Edit button pressed.");
 	
 	// form view の呼び出し。
 	FormViewController *formViewController = [[FormViewController alloc] initWithNibName:@"FormViewController"
