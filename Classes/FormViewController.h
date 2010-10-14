@@ -13,9 +13,16 @@
 	IBOutlet UITextField *date;
 	IBOutlet UITextField *amount;
 	IBOutlet UITextField *note;
+	
+	// 追加だけでなく編集できるように、データのインデックスを
+	// 指定できるようにする。
+	int indexValue;
 }
 
 - (IBAction)pressCancelButton:(id)sender;
 - (IBAction)pressSaveButton:(id)sender;
+
+// インデックスを指定するためのメソッド
+- (void)setIndex:(int)index;
 
 @end

@@ -27,6 +27,8 @@
 	// form view の呼び出し。
 	FormViewController *formViewController = [[FormViewController alloc] initWithNibName:@"FormViewController"
 																				  bundle:nil];
+	// データのインデックスを指定。
+	[formViewController setIndex:indexValue];
 	// modal view として表示。
 	[self presentModalViewController:formViewController animated:YES];
 	
@@ -53,6 +55,9 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSArray *activities = [defaults objectForKey:@"activities"];
 	activity = [activities objectAtIndex:indexValue];
+	
+	// 表示のリフレッシュ
+	[self.tableView reloadData];
 	
 	// タイトルの設定
 	self.navigationItem.title = [[activity objectForKey:@"date"] description];
