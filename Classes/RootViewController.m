@@ -42,12 +42,17 @@
 	// UITableViewController を継承しているので、tableView で参照できる。
 	[self.tableView reloadData];
 	
+	// その他 UI の再描画
+	[self refresh];
+}
+
+- (void)refresh {
 	// 合計の計算と表示
 	int sum = 0;
 	for ( NSDictionary *activity in activities ) {
 		sum += [[activity objectForKey:@"amount"] intValue];
 	}
-	self.navigationItem.title = [NSString stringWithFormat:@"合計 %d円", sum];
+	self.navigationItem.title = [NSString stringWithFormat:@"合計 %d円", sum];	
 }
 
 /*
@@ -143,29 +148,34 @@
 }
  */
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
+	
+	// 削除などのテーブルの編集を許可する場合は YES を返す。
     return YES;
 }
-*/
 
 
-/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source.
+        // データの削除処理
+		[activities removeObjectAtIndex:indexPath.row];
+		// テーブルの削除処理
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+
+		// その他 UI の再描画
+		[self refresh];
     }   
+	/*
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }   
+    } 
+	 */
 }
-*/
-
 
 /*
 // Override to support rearranging the table view.
